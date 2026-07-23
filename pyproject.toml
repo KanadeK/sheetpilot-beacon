@@ -1,0 +1,117 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sheetpilot-beacon"
+version = "0.1.0"
+description = "Offline Excel formula risk, dependency, and drift auditing"
+readme = "README.md"
+requires-python = "==3.12.*"
+license = { file = "LICENSE" }
+authors = [
+  { name = "KanadeK", email = "121669563+KanadeK@users.noreply.github.com" },
+]
+keywords = ["excel", "spreadsheet", "audit", "openpyxl", "data-quality"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Environment :: Web Environment",
+  "Intended Audience :: Financial and Insurance Industry",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Office/Business :: Financial :: Spreadsheet",
+  "Typing :: Typed",
+]
+dependencies = [
+  "networkx>=3.4.2,<4",
+  "openpyxl==3.1.5",
+  "polars>=1.31,<2",
+  "pydantic>=2.11,<3",
+  "streamlit>=1.49,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2.2,<2",
+  "mypy>=1.15,<3",
+  "pip-audit>=2.8,<3",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.11,<1",
+]
+
+[project.scripts]
+sheetpilot = "sheetpilot_beacon.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/KanadeK/sheetpilot-beacon"
+Documentation = "https://github.com/KanadeK/sheetpilot-beacon#readme"
+Issues = "https://github.com/KanadeK/sheetpilot-beacon/issues"
+Source = "https://github.com/KanadeK/sheetpilot-beacon"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sheetpilot_beacon"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/examples",
+  "/docs",
+  "/scripts",
+  "/README.md",
+  "/README.zh-CN.md",
+  "/LICENSE",
+  "/CHANGELOG.md",
+  "/CONTRIBUTING.md",
+  "/SECURITY.md",
+  "/CODE_OF_CONDUCT.md",
+  "/Makefile",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["dist-release", "demo-output"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C4", "SIM", "UP", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["sheetpilot_beacon"]
+warn_unreachable = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = ["openpyxl.*", "streamlit.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-config", "--strict-markers", "-p", "no:cacheprovider"]
+markers = [
+  "e2e: exercises a complete user-facing workflow",
+  "integration: crosses package or file-system boundaries",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["sheetpilot_beacon"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_covered = true
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+]

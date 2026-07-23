@@ -1,0 +1,26 @@
+name: Feature request
+description: Propose a narrowly defined workbook audit capability
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Audit problem
+      description: Describe the decision or risk that cannot be handled today.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Expected evidence
+      description: Explain what cells, formulas, or workbook structures support the result.
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy and compatibility constraints
+      description: State required Excel formats and offline/data-boundary needs.
+    validations:
+      required: true
