@@ -98,7 +98,13 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = ["-ra", "--strict-config", "--strict-markers", "-p", "no:cacheprovider"]
+addopts = [
+  "-ra",
+  "--strict-config",
+  "--strict-markers",
+  "-p",
+  "no:cacheprovider",
+]
 markers = [
   "e2e: exercises a complete user-facing workflow",
   "integration: crosses package or file-system boundaries",

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "total_expected": 15,
+  "workbooks": {
+    "budget_model.xlsx": [
+      {"code": "hardcoded_intrusion", "sheet": "Budget", "cell": "E6"},
+      {"code": "broken_reference", "sheet": "Budget", "cell": "B10"},
+      {"code": "formula_inconsistency", "sheet": "Budget", "cell": "D8"},
+      {"code": "high_fanout", "sheet": "Assumptions", "cell": "B2"},
+      {"code": "hidden_dependency", "sheet": "Budget", "cell": "B12"}
+    ],
+    "sales_forecast.xlsx": [
+      {"code": "hardcoded_intrusion", "sheet": "Forecast", "cell": "E6"},
+      {"code": "broken_reference", "sheet": "Forecast", "cell": "B10"},
+      {"code": "formula_inconsistency", "sheet": "Forecast", "cell": "D8"},
+      {"code": "high_fanout", "sheet": "Inputs", "cell": "B2"},
+      {"code": "external_link", "sheet": "Forecast", "cell": "B12"}
+    ],
+    "engineering_boq.xlsx": [
+      {"code": "hardcoded_intrusion", "sheet": "BOQ", "cell": "E6"},
+      {"code": "broken_reference", "sheet": "BOQ", "cell": "B10"},
+      {"code": "formula_inconsistency", "sheet": "BOQ", "cell": "D8"},
+      {"code": "high_fanout", "sheet": "Assumptions", "cell": "B2"},
+      {"code": "hidden_dependency", "sheet": "BOQ", "cell": "B12"}
+    ]
+  }
+}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from datetime import datetime
 from enum import StrEnum
 from typing import Self
 
@@ -229,3 +230,35 @@ class DriftReport(DomainModel):
     after_sha256: str
     changes: tuple[DriftChange, ...]
     summary: dict[DriftKind, int]
+
+
+class AuditMetrics(DomainModel):
+    """Workbook and graph counts that contain no raw cell values."""
+
+    sheet_count: int = Field(ge=0)
+    hidden_sheet_count: int = Field(ge=0)
+    populated_cell_count: int = Field(ge=0)
+    formula_cell_count: int = Field(ge=0)
+    named_range_count: int = Field(ge=0)
+    merged_range_count: int = Field(ge=0)
+    external_link_count: int = Field(ge=0)
+    dependency_node_count: int = Field(ge=0)
+    dependency_edge_count: int = Field(ge=0)
+
+
+class AuditReport(DomainModel):
+    """Serializable audit result shared by every output adapter."""
+
+    schema_version: str = "1.0"
+    tool_version: str
+    generated_at: datetime
+    source_filename: str
+    source_sha256: str
+    source_unchanged: bool
+    metrics: AuditMetrics
+    sheets: tuple[SheetRecord, ...]
+    named_ranges: tuple[NamedRangeRecord, ...]
+    external_links: tuple[str, ...]
+    issues: tuple[AuditIssue, ...]
+    issue_summary: dict[IssueCode, int]
+    severity_summary: dict[Severity, int]
