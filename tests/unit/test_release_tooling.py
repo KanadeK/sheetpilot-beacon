@@ -71,6 +71,23 @@ def test_release_metadata_matches_current_version() -> None:
     }
 
 
+def test_release_metadata_accepts_a_branch_ref(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("GITHUB_REF_TYPE", "branch")
+    monkeypatch.setenv("GITHUB_REF_NAME", "main")
+
+    release_check._check_versions()
+
+
+def test_release_metadata_rejects_a_mismatched_tag(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("GITHUB_REF_TYPE", "tag")
+    monkeypatch.setenv("GITHUB_REF_NAME", "v9.9.9")
+
+    with pytest.raises(RuntimeError, match=r"tag v9\.9\.9 does not match v0\.1\.0"):
+        release_check._check_versions()
+
+
 def test_release_text_and_python_body_checks_pass_repository_sources() -> None:
     release_check._check_forbidden_text()
     release_check._check_python_bodies()

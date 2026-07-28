@@ -218,7 +218,7 @@ python -m pytest -q --cov=src --cov-report=term-missing --cov-fail-under=80
 python -m build
 ```
 
-v0.1.0 发布门在 Windows 上通过 **49 项测试、85.82% 总覆盖率**，包含三条子进程
+v0.1.0 发布门在 Windows 上通过 **51 项测试、85.82% 总覆盖率**，包含三条子进程
 CLI 工作流及 Streamlit 应用契约。样例性能实测见
 [基准](docs/BENCHMARK.md)，发布门见
 [发布清单](docs/RELEASE_CHECKLIST.md)。

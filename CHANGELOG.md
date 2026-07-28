@@ -44,6 +44,8 @@ No changes yet.
 - Stable install-smoke evidence that omits local temporary directory paths.
 - Explicit pytest project-root imports so release-tooling tests run identically
   through `uv` on Linux, macOS, and Windows CI.
+- Release-tag validation now distinguishes tag workflows from ordinary branch
+  pushes by checking `GITHUB_REF_TYPE`.
 
 [Unreleased]: https://github.com/KanadeK/sheetpilot-beacon/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/KanadeK/sheetpilot-beacon/releases/tag/v0.1.0

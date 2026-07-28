@@ -84,7 +84,7 @@ def _check_versions() -> None:
         if f"v{__version__}" not in (REPOSITORY_ROOT / readme).read_text("utf-8"):
             raise RuntimeError(f"{readme} lacks v{__version__}")
     tag = os.environ.get("GITHUB_REF_NAME")
-    if tag and tag != f"v{__version__}":
+    if os.environ.get("GITHUB_REF_TYPE") == "tag" and tag != f"v{__version__}":
         raise RuntimeError(f"tag {tag} does not match v{__version__}")
 
 

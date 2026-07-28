@@ -237,7 +237,7 @@ python -m pytest -q --cov=src --cov-report=term-missing --cov-fail-under=80
 python -m build
 ```
 
-The v0.1.0 release gate passed **49 tests at 85.82% total coverage** on Windows
+The v0.1.0 release gate passed **51 tests at 85.82% total coverage** on Windows
 and exercised three subprocess CLI workflows plus the Streamlit application
 contract. See [Benchmark](docs/BENCHMARK.md) for measured sample latency and
 [Release Checklist](docs/RELEASE_CHECKLIST.md) for the publication gates.
