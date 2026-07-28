@@ -55,7 +55,7 @@ jobs:
         run: uv run python -m build
 
       - name: Upload quality evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sheetpilot-beacon-quality
           path: |
