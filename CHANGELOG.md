@@ -42,6 +42,8 @@ No changes yet.
 - Process-scoped Git trust for release checks across distinct Windows sandbox
   and interactive-user SIDs, without modifying global Git configuration.
 - Stable install-smoke evidence that omits local temporary directory paths.
+- Explicit pytest project-root imports so release-tooling tests run identically
+  through `uv` on Linux, macOS, and Windows CI.
 
 [Unreleased]: https://github.com/KanadeK/sheetpilot-beacon/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/KanadeK/sheetpilot-beacon/releases/tag/v0.1.0
