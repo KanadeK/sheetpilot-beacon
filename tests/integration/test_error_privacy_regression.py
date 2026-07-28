@@ -44,7 +44,7 @@ def test_cli_turns_output_permission_error_into_actionable_failure(
 @pytest.mark.integration
 def test_reports_redact_credentials_and_omit_raw_constant_values(tmp_path: Path) -> None:
     source = tmp_path / "privacy.xlsx"
-    secret_token = "sk-ABCDEFGHIJKLMNOPQRSTUV"
+    secret_token = "sk-ABCDEFGHIJKLMNOPQRSTUV"  # secret-scan: allow
     private_value = "private-customer-value-8742"
     workbook = Workbook()
     worksheet = workbook.active

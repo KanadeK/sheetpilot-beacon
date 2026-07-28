@@ -236,7 +236,7 @@ def test_drift_finds_formula_to_constant_and_changed_formula() -> None:
         ("https://example.test/?api_key=super-secret-value", "super-secret-value"),
         ('="token=abc123456789"', "abc123456789"),
         ('=WEBSERVICE("https://x.test/?password=hunter2")', "hunter2"),
-        ('=CONCAT("ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ123456")', "ghp_ABC"),
+        ('=CONCAT("ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ123456")', "ghp_ABC"),  # secret-scan: allow
     ],
 )
 def test_sensitive_formula_evidence_is_redacted(text: str, forbidden: str) -> None:
