@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install lint format-check typecheck test build verify demo
+.PHONY: install lint format-check typecheck test build verify demo benchmark capture-demo
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
@@ -24,3 +24,9 @@ verify: lint format-check typecheck test build
 
 demo:
 	$(PYTHON) scripts/demo.py
+
+benchmark:
+	$(PYTHON) scripts/benchmark.py
+
+capture-demo:
+	$(PYTHON) scripts/capture_demo.py
