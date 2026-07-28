@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install lint format-check typecheck test build verify
+.PHONY: install lint format-check typecheck test build verify demo
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
@@ -21,3 +21,6 @@ build:
 	$(PYTHON) -m build
 
 verify: lint format-check typecheck test build
+
+demo:
+	$(PYTHON) scripts/demo.py

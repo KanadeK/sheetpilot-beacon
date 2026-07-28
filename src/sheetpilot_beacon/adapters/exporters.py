@@ -13,7 +13,7 @@ from openpyxl.comments import Comment
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
-from sheetpilot_beacon.domain.models import AuditReport, Severity
+from sheetpilot_beacon.domain.models import AuditReport, DriftReport, Severity
 
 # Hardened Windows sandboxes can hide platform.machine(), which makes Polars
 # report every required flag as "unknown". Bypass only that false-positive
@@ -81,6 +81,14 @@ def _issue_frame(report: AuditReport) -> pl.DataFrame:
 
 def export_json_report(report: AuditReport, output_path: str | Path) -> Path:
     """Write the privacy-minimized report as stable JSON."""
+
+    output = _prepare_output(output_path)
+    output.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+    return output
+
+
+def export_drift_json(report: DriftReport, output_path: str | Path) -> Path:
+    """Write a formula-drift report as stable JSON."""
 
     output = _prepare_output(output_path)
     output.write_text(report.model_dump_json(indent=2), encoding="utf-8")
@@ -199,6 +207,70 @@ def export_html_report(report: AuditReport, output_path: str | Path) -> Path:
   </section>
   <footer>Static analysis only. No workbook values are included in this report.</footer>
 </main>
+</body>
+</html>
+"""
+    output.write_text(document, encoding="utf-8")
+    return output
+
+
+def export_drift_html(report: DriftReport, output_path: str | Path) -> Path:
+    """Write a standalone formula-drift report without constant values."""
+
+    output = _prepare_output(output_path)
+    rows = "".join(
+        "<tr>"
+        f"<td><code>{_escape(change.kind.value)}</code></td>"
+        f"<td><code>{_escape(change.sheet)}"
+        f"{'!' + _escape(change.cell) if change.cell else ''}</code></td>"
+        f"<td><code>{_escape(change.before_formula or '')}</code></td>"
+        f"<td><code>{_escape(change.after_formula or '')}</code></td>"
+        f"<td>{_escape(change.before_value_kind.value if change.before_value_kind else '')}</td>"
+        f"<td>{_escape(change.after_value_kind.value if change.after_value_kind else '')}</td>"
+        "</tr>"
+        for change in report.changes
+    )
+    summary = "".join(
+        f"<li><strong>{_escape(kind.value)}</strong><span>{count}</span></li>"
+        for kind, count in report.summary.items()
+    )
+    document = f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SheetPilot Beacon · Formula drift</title>
+  <style>
+    *{{box-sizing:border-box}} body{{margin:0;background:#f5f7fa;color:#102a43;
+      font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}}
+    header,main{{width:min(1280px,calc(100% - 2rem));margin:auto}}
+    header{{padding:2.5rem 0 1rem}} h1{{font-size:clamp(2rem,5vw,3.4rem);margin:.2rem 0}}
+    .eyebrow{{color:#0f766e;font-weight:800;text-transform:uppercase;letter-spacing:.08em}}
+    .meta{{color:#52606d;overflow-wrap:anywhere}}
+    ul{{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+      gap:.75rem;list-style:none;padding:0}}
+    li,section{{background:white;border:1px solid #d9e2ec;border-radius:12px}}
+    li{{display:flex;justify-content:space-between;padding:1rem}} li span{{font-weight:800}}
+    section{{padding:1rem;margin:1rem 0}} .wrap{{overflow:auto;max-height:70vh}}
+    table{{border-collapse:collapse;width:100%;min-width:920px}}
+    th,td{{text-align:left;vertical-align:top;padding:.75rem;border-bottom:1px solid #d9e2ec}}
+    th{{position:sticky;top:0;background:#eaf2f8}} code{{overflow-wrap:anywhere}}
+  </style>
+</head>
+<body>
+<header><div class="eyebrow">SheetPilot Beacon</div><h1>Formula drift</h1>
+  <p class="meta"><strong>{_escape(report.before_filename)}</strong> →
+  <strong>{_escape(report.after_filename)}</strong><br>
+  Before SHA-256 <code>{_escape(report.before_sha256)}</code><br>
+  After SHA-256 <code>{_escape(report.after_sha256)}</code></p></header>
+<main><ul aria-label="Change counts">{summary}</ul>
+  <section><h2>Changes ({len(report.changes)})</h2>
+  <div class="wrap" tabindex="0" aria-label="Scrollable formula change table">
+  <table><thead><tr><th>Kind</th><th>Location</th><th>Before formula</th>
+    <th>After formula</th><th>Before type</th><th>After type</th></tr></thead>
+  <tbody>{rows}</tbody></table></div></section>
+  <p class="meta">Constant values are fingerprinted for comparison and are not
+  included in this report.</p></main>
 </body>
 </html>
 """
