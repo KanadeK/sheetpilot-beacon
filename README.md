@@ -237,7 +237,7 @@ python -m pytest -q --cov=src --cov-report=term-missing --cov-fail-under=80
 python -m build
 ```
 
-The v0.1.0 release gate passed **42 tests at 85.82% total coverage** on Windows
+The v0.1.0 release gate passed **49 tests at 85.82% total coverage** on Windows
 and exercised three subprocess CLI workflows plus the Streamlit application
 contract. See [Benchmark](docs/BENCHMARK.md) for measured sample latency and
 [Release Checklist](docs/RELEASE_CHECKLIST.md) for the publication gates.
@@ -255,6 +255,17 @@ python scripts/capture_demo.py
 The script waits on Streamlit's health endpoint, uploads the real workbook,
 asserts that the audit and download controls are active, and captures the
 rendered result. No production workbook is used.
+
+Build and verify the complete Release bundle:
+
+```bash
+python scripts/package_release.py
+python scripts/release_check.py
+```
+
+The package step builds wheel and sdist, copies all three samples, generates a
+static report and demo archive, installs the wheel in a clean virtual
+environment, runs a real scan, and writes `SHA256SUMS.txt`.
 
 ## Non-goals and known limits
 

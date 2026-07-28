@@ -218,7 +218,7 @@ python -m pytest -q --cov=src --cov-report=term-missing --cov-fail-under=80
 python -m build
 ```
 
-v0.1.0 发布门在 Windows 上通过 **42 项测试、85.82% 总覆盖率**，包含三条子进程
+v0.1.0 发布门在 Windows 上通过 **49 项测试、85.82% 总覆盖率**，包含三条子进程
 CLI 工作流及 Streamlit 应用契约。样例性能实测见
 [基准](docs/BENCHMARK.md)，发布门见
 [发布清单](docs/RELEASE_CHECKLIST.md)。
@@ -235,6 +235,16 @@ python scripts/capture_demo.py
 
 脚本会等待 Streamlit 健康检查，上传真实样例，确认审计和下载控件可用，再捕获渲染
 结果；不会使用任何生产工作簿。
+
+构建并检查完整 Release 制品：
+
+```bash
+python scripts/package_release.py
+python scripts/release_check.py
+```
+
+打包步骤会构建 wheel 和 sdist、复制三个样例、生成静态报告与演示压缩包，在全新
+虚拟环境中安装 wheel 并执行真实扫描，最后写入 `SHA256SUMS.txt`。
 
 ## 非目标与已知限制
 

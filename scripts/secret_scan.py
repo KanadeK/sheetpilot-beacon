@@ -47,7 +47,16 @@ class Finding:
 
 def _project_files() -> list[Path]:
     result = subprocess.run(
-        ("git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"),
+        (
+            "git",
+            "-c",
+            "safe.directory=*",
+            "ls-files",
+            "--cached",
+            "--others",
+            "--exclude-standard",
+            "-z",
+        ),
         check=True,
         capture_output=True,
     )

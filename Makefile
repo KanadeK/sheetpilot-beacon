@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install lint format-check typecheck test build verify demo benchmark capture-demo
+.PHONY: install lint format-check typecheck test build verify demo benchmark capture-demo package release-check
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
@@ -30,3 +30,9 @@ benchmark:
 
 capture-demo:
 	$(PYTHON) scripts/capture_demo.py
+
+package:
+	$(PYTHON) scripts/package_release.py
+
+release-check:
+	$(PYTHON) scripts/release_check.py

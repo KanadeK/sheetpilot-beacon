@@ -39,6 +39,9 @@ No changes yet.
   host architecture, with environment restoration.
 - Project-local pytest temporary directories in the unified verifier, avoiding
   false failures from an inaccessible global temporary directory.
+- Process-scoped Git trust for release checks across distinct Windows sandbox
+  and interactive-user SIDs, without modifying global Git configuration.
+- Stable install-smoke evidence that omits local temporary directory paths.
 
 [Unreleased]: https://github.com/KanadeK/sheetpilot-beacon/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/KanadeK/sheetpilot-beacon/releases/tag/v0.1.0
