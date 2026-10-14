@@ -27,7 +27,7 @@ classifiers = [
 dependencies = [
   "networkx>=3.4.2,<4",
   "openpyxl==3.1.5",
-  "polars>=1.31,<2",
+  "polars>=1.31,<3",
   "pydantic>=2.11,<3",
   "streamlit>=1.49,<2",
 ]
